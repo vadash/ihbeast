@@ -14,7 +14,7 @@ stateMachine:register("arena_top", "choose_rival", function ()
     local arenaRank = numberOCR(rankPosition, "arena")
     setImagePath(AUTO_IMAGE_PATH)
     stateMachine:log("arenaRank = "..arenaRank)
-    if arenaRank >= 3 then
+    if arenaRank > 2 then
         stateMachine:click("btn_arena_top_.png")
         wait(5)
     else
@@ -39,7 +39,6 @@ end)
 -- main program
 local alive = true
 while alive do
-    local starterState = stateMachine:getState()
     alive = stateMachine:goto("arena_top", "choose_rival", "heroes_formation")
 end
 --playMusic("ended.mp3", false)
