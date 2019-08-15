@@ -18,7 +18,7 @@ stateMachine:register("arena_top", "choose_rival", function ()
         stateMachine:click("btn_arena_top_.png")
         wait(5)
     else
-        wait(60)
+        wait(10 * 60) --10 minutes delay between searches
         stateMachine:goto("home")
     end
     return stateMachine:waitKnownState(10)
