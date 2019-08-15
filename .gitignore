@@ -1,0 +1,12 @@
+
+*.log
+
+image/_lastScreen\.png
+
+*.luae
+
+stale_outputs_checked
+
+\.idea/\.idea\.ihbeast/\.idea/
+
+\.idea/\.idea\.ihbeast/
