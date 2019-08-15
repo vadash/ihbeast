@@ -13,12 +13,28 @@ stateMachine:register("arena_top", "choose_rival", function ()
     setImagePath(MANUAL_IMAGE_PATH)
     local arenaRank = numberOCR(rankPosition, "arena")
     setImagePath(AUTO_IMAGE_PATH)
-    stateMachine:log(arenaRank)
+    stateMachine:log("arenaRank = "..arenaRank)
+    if arenaRank >= 3 then
+        stateMachine:click("btn_arena_top_.png")
+    else
+        wait(10)
+    end
+    wait(5)
     return stateMachine:waitKnownState(10)
 end)
 
 stateMachine:register("choose_rival", "heroes_formation", function ()
     stateMachine:log("not implemented #1")
+    local found = false
+    if not found then found = stateMachine:find("btn_cankill_1_.png") end
+    if not found then found = stateMachine:find("btn_cankill_1_.png") end
+    if not found then found = stateMachine:find("btn_cankill_1_.png") end
+    if not found then found = stateMachine:find("btn_cankill_1_.png") end
+    if not found then found = stateMachine:find("btn_cankill_1_.png") end
+    if found then
+        click(found:offset(923 - 351, 0))
+    end
+    if not found then stateMachine:click("btn_choose_rival_.png") end -- refresh
     return stateMachine:waitKnownState(10)
 end)
 
