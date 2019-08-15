@@ -16,10 +16,11 @@ stateMachine:register("arena_top", "choose_rival", function ()
     stateMachine:log("arenaRank = "..arenaRank)
     if arenaRank >= 3 then
         stateMachine:click("btn_arena_top_.png")
+        wait(5)
     else
-        wait(10)
+        wait(60)
+        stateMachine:goto("home")
     end
-    wait(5)
     return stateMachine:waitKnownState(10)
 end)
 
@@ -27,10 +28,7 @@ stateMachine:register("choose_rival", "heroes_formation", function ()
     stateMachine:log("not implemented #1")
     local found = false
     if not found then found = stateMachine:find("btn_cankill_1_.png") end
-    if not found then found = stateMachine:find("btn_cankill_1_.png") end
-    if not found then found = stateMachine:find("btn_cankill_1_.png") end
-    if not found then found = stateMachine:find("btn_cankill_1_.png") end
-    if not found then found = stateMachine:find("btn_cankill_1_.png") end
+    if not found then found = stateMachine:find("btn_cankill_2_.png") end
     if found then
         click(found:offset(923 - 351, 0))
     end
