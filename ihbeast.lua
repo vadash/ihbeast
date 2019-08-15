@@ -27,8 +27,9 @@ end)
 stateMachine:register("choose_rival", "heroes_formation", function ()
     stateMachine:log("not implemented #1")
     local found = false
-    if not found then found = stateMachine:find("btn_cankill_1_.png") end
-    if not found then found = stateMachine:find("btn_cankill_2_.png") end
+    if not found then found = stateMachine:find("btn_cankill_1_.png") end -- vn rex dancing
+    if not found then found = stateMachine:find("btn_cankill_2_.png") end -- hut can
+    if not found then found = stateMachine:find("btn_cankill_3_.png") end -- mad 1r
     if found then
         click(found:offset(923 - 351, 0))
     end
