@@ -29,7 +29,7 @@ stateMachine:register("choose_rival", "heroes_formation", function ()
     local n = 0
     while not found and n < 50 do
         n = n + 1
-        if math.fmod(n, 5) == 0 then wait(60) end -- 1 minute pause every 5 searches
+        if math.fmod(n, 5) == 0 then wait(1 * 60) end -- 1 minute pause every 5 searches
         if math.fmod(n, 13) == 0 then wait(10 * 60) end -- 10 minute pause every 13 searches
         if math.fmod(n, 29) == 0 then wait(30 * 60) end -- 30 minute pause every 29 searches
         if not found then found = stateMachine:find("btn_cankill_1_.png") end -- vn rex dancing
@@ -50,4 +50,4 @@ local alive = true
 while alive do
     alive = stateMachine:goto("arena_top", "choose_rival", "heroes_formation")
 end
---playMusic("ended.mp3", false)
+playMusic("ended.mp3", false)
