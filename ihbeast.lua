@@ -14,11 +14,11 @@ stateMachine:register("arena_top", "choose_rival", function ()
     local arenaRank = numberOCR(rankPosition, "arena")
     setImagePath(AUTO_IMAGE_PATH)
     stateMachine:log("arenaRank = "..arenaRank)
-    if arenaRank > 3 then
+    if arenaRank > 1 then
         stateMachine:click("btn_arena_top_.png")
         wait(5)
     else
-        wait(10 * 60) --10 minutes delay between searches
+        wait(5 * 60) --5 minutes delay between searches
         stateMachine:goto("home")
     end
     return stateMachine:waitKnownState(10)
@@ -29,21 +29,37 @@ stateMachine:register("choose_rival", "heroes_formation", function ()
     local n = 0
     while not found and n < 50 do
         n = n + 1
-        if math.fmod(n, 5) == 0 then wait(1 * 60) end -- 1 minute pause every 5 searches
-        if math.fmod(n, 13) == 0 then wait(10 * 60) end -- 10 minute pause every 13 searches
-        if math.fmod(n, 29) == 0 then wait(30 * 60) end -- 30 minute pause every 29 searches
-        if not found then found = stateMachine:find("btn_cankill_1_.png") end -- vn rex dancing
-        if not found then found = stateMachine:find("btn_cankill_2_.png") end -- hut can
-        if not found then found = stateMachine:find("btn_cankill_3_.png") end -- mad 1r
-        if not found then found = stateMachine:find("btn_cankill_4_.png") end -- rem me
+        found = IsGoodArenaTarget(found, "btn_cankill_1_.png") -- vn rex dancing
+        --IsGoodArenaTarget(found, "btn_cankill_2_.png") -- hut can
+        --IsGoodArenaTarget(found, "btn_cankill_3_.png") -- mad 1r
+        --IsGoodArenaTarget(found, "btn_cankill_4_.png") -- rem me
+        --IsGoodArenaTarget(found, "btn_cankill_5_.png") -- melbs
+        --IsGoodArenaTarget(found, "btn_cankill_6_.png") -- vothan
         if found then
             click(found:offset(923 - 351, 0)) -- attack
         else
             stateMachine:click("btn_choose_rival_.png") -- refresh
         end
     end
-    return stateMachine:waitKnownState(10)
+    if n >= 50 then
+        stateMachine:goto("home")
+    else
+        return stateMachine:waitKnownState(10)
+    end
 end)
+
+local function isempty(s)
+    return s == nil or s == ''
+end
+
+function IsGoodArenaTarget(found, target)
+    if found == false then return end
+    found = stateMachine:find(target)
+    if found ~= nil and found.y ~= nil and found.y > 500 then
+        found = false
+    end
+    return found
+end
 
 -- main program
 local alive = true
