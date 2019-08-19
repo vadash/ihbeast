@@ -18,28 +18,34 @@ stateMachine:register("arena_top", "choose_rival", function ()
         stateMachine:click("btn_arena_top_.png")
         wait(5)
     else
-        wait(5 * 60) --5 minutes delay between searches
+        wait(10 * 60) --5 minutes delay between searches
         stateMachine:goto("home")
     end
     return stateMachine:waitKnownState(10)
 end)
 
+found = false
 stateMachine:register("choose_rival", "heroes_formation", function ()
-    local found = false
+    found = false
     local n = 0
-    while not found and n < 50 do
+    while found == nil or found == false do
         n = n + 1
-        found = IsGoodArenaTarget(found, "btn_cankill_1_.png") -- vn rex dancing
+        if n >= 50 then break end
+        IsGoodArenaTarget("btn_cankill_1_.png") -- vn rex dancing
         --IsGoodArenaTarget(found, "btn_cankill_2_.png") -- hut can
-        --IsGoodArenaTarget(found, "btn_cankill_3_.png") -- mad 1r
-        --IsGoodArenaTarget(found, "btn_cankill_4_.png") -- rem me
-        --IsGoodArenaTarget(found, "btn_cankill_5_.png") -- melbs
-        --IsGoodArenaTarget(found, "btn_cankill_6_.png") -- vothan
-        if found then
-            click(found:offset(923 - 351, 0)) -- attack
-        else
+        IsGoodArenaTarget("btn_cankill_3_.png") -- mad 1r
+        --IsGoodArenaTarget("btn_cankill_4_.png") -- rem me
+        --IsGoodArenaTarget("btn_cankill_5_.png") -- melbs
+        --IsGoodArenaTarget("btn_cankill_6_.png") -- vothan
+        --IsGoodArenaTarget("btn_cankill_7_.png") -- ons kharma100
+        IsGoodArenaTarget("btn_cankill_8_.png") --wins
+        IsGoodArenaTarget("btn_cankill_9_.png") --ons
+        if found == nil or found == false then
             stateMachine:click("btn_choose_rival_.png") -- refresh
+        else
+            click(found:offset(923 - 351, 0)) -- attack
         end
+        wait(2)
     end
     if n >= 50 then
         stateMachine:goto("home")
@@ -48,15 +54,9 @@ stateMachine:register("choose_rival", "heroes_formation", function ()
     end
 end)
 
-local function isempty(s)
-    return s == nil or s == ''
-end
-
-function IsGoodArenaTarget(found, target)
-    if found == false then return end
-    found = stateMachine:find(target)
-    if found ~= nil and found.y ~= nil and found.y > 500 then
-        found = false
+function IsGoodArenaTarget(target)
+    if found == nil or found == false then
+        found = stateMachine:find(target)
     end
     return found
 end
