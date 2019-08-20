@@ -14,7 +14,7 @@ stateMachine:register("arena_top", "choose_rival", function ()
     local arenaRank = numberOCR(rankPosition, "arena")
     setImagePath(AUTO_IMAGE_PATH)
     stateMachine:log("arenaRank = "..arenaRank)
-    if arenaRank > 1 then
+    if arenaRank > 2 then
         stateMachine:click("btn_arena_top_.png")
         wait(5)
     else
@@ -32,14 +32,16 @@ stateMachine:register("choose_rival", "heroes_formation", function ()
         n = n + 1
         if n >= 50 then break end
         IsGoodArenaTarget("btn_cankill_1_.png") -- vn rex dancing
-        --IsGoodArenaTarget(found, "btn_cankill_2_.png") -- hut can
-        IsGoodArenaTarget("btn_cankill_3_.png") -- mad 1r
+        --IsGoodArenaTarget("btn_cankill_2_.png") -- hut can
+        --IsGoodArenaTarget("btn_cankill_3_.png") -- mad 1r
         --IsGoodArenaTarget("btn_cankill_4_.png") -- rem me
         --IsGoodArenaTarget("btn_cankill_5_.png") -- melbs
         --IsGoodArenaTarget("btn_cankill_6_.png") -- vothan
         --IsGoodArenaTarget("btn_cankill_7_.png") -- ons kharma100
-        IsGoodArenaTarget("btn_cankill_8_.png") --wins
-        IsGoodArenaTarget("btn_cankill_9_.png") --ons
+        --IsGoodArenaTarget("btn_cankill_8_.png") --wins
+        --IsGoodArenaTarget("btn_cankill_9_.png") --ons
+        --IsGoodArenaTarget("btn_cankill_10_.png") --chefster
+        --IsGoodArenaTarget("btn_cankill_11_.png") --mad bones
         if found == nil or found == false then
             stateMachine:click("btn_choose_rival_.png") -- refresh
         else
