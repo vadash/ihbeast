@@ -8,29 +8,34 @@ HIGHLIGHT = false
 setImagePath(AUTO_IMAGE_PATH)
 dofile(ROOT.."stateMachine.lua")
 
+--global
+found = false
+defeatCount = 0
+
 stateMachine:register("arena_top", "choose_rival", function ()
     local rankPosition = Region(1025, 191, 73, 28)
     setImagePath(MANUAL_IMAGE_PATH)
     local arenaRank = numberOCR(rankPosition, "arena")
     setImagePath(AUTO_IMAGE_PATH)
     stateMachine:log("arenaRank = "..arenaRank)
-    if arenaRank > 2 then
+    if arenaRank > 3 then
         stateMachine:click("btn_arena_top_.png")
         wait(5)
     else
         wait(10 * 60) --5 minutes delay between searches
+        defeatCount = 0
         stateMachine:goto("home")
     end
     return stateMachine:waitKnownState(10)
 end)
 
-found = false
 stateMachine:register("choose_rival", "heroes_formation", function ()
     found = false
     local n = 0
     while found == nil or found == false do
         n = n + 1
         if n >= 50 then break end
+        if defeatCount > 3 then break end
         IsGoodArenaTarget("btn_cankill_1_.png") -- vn rex dancing
         --IsGoodArenaTarget("btn_cankill_2_.png") -- hut can
         --IsGoodArenaTarget("btn_cankill_3_.png") -- mad 1r
@@ -41,7 +46,7 @@ stateMachine:register("choose_rival", "heroes_formation", function ()
         --IsGoodArenaTarget("btn_cankill_8_.png") --wins
         --IsGoodArenaTarget("btn_cankill_9_.png") --ons
         --IsGoodArenaTarget("btn_cankill_10_.png") --chefster
-        --IsGoodArenaTarget("btn_cankill_11_.png") --mad bones
+        IsGoodArenaTarget("btn_cankill_11_.png") --mad bones
         if found == nil or found == false then
             stateMachine:click("btn_choose_rival_.png") -- refresh
         else
@@ -49,11 +54,14 @@ stateMachine:register("choose_rival", "heroes_formation", function ()
         end
         wait(2)
     end
-    if n >= 50 then
-        stateMachine:goto("home")
-    else
-        return stateMachine:waitKnownState(10)
+    return stateMachine:waitKnownState(10)
+end)
+
+stateMachine:register("defeat", "arena_top", function ()
+    if stateMachine:click("btn_defeat_.png") then
+        defeatCount = defeatCount + 1
     end
+    return stateMachine:waitKnownState(10)
 end)
 
 function IsGoodArenaTarget(target)
